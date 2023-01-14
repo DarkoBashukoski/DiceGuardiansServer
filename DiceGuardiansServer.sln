@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiceGuardiansServer", "DiceGuardiansServer\DiceGuardiansServer.csproj", "{DA30C23B-A378-4561-AD49-29F86CAA362C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA30C23B-A378-4561-AD49-29F86CAA362C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA30C23B-A378-4561-AD49-29F86CAA362C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA30C23B-A378-4561-AD49-29F86CAA362C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA30C23B-A378-4561-AD49-29F86CAA362C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
