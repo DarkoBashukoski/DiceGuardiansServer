@@ -1,6 +1,3 @@
-using DiceGuardiansServer.Database;
-using DiceGuardiansServer.Database.Models;
-using DiceGuardiansServer.Matchmaking;
 using Riptide;
 
 namespace DiceGuardiansServer.Networking; 
@@ -10,13 +7,11 @@ public static class NetworkManager {
 
     public static void Start() {
         _server = new Server();
-        _server.Start(7777, 10);
-        Matchmaker.Start();
+        _server.Start(7777, 1000);
     }
 
     public static void Update() {
         _server.Update();
-        Matchmaker.CreateMatches();
     }
 
     public static Server GetServer() {
