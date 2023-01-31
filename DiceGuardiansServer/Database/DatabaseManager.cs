@@ -85,14 +85,15 @@ public static class DatabaseManager {
         return u;
     }
 
-    public static void CreateCard(long id, string name, int attack, int defense, int health, string cardText, string diceFaces) {
+    public static void CreateCard(long id, string name, int cost, int attack, int defense, int health, string cardText, string diceFaces) {
         SQLiteCommand cmd = new SQLiteCommand(_con);
-        Card c = new Card(id, name, attack, defense, health, cardText, diceFaces);
+        Card c = new Card(id, name, cost, attack, defense, health, cardText, diceFaces);
         
-        cmd.CommandText = @"INSERT INTO Card(cardId, name, attack, defense, health, cardText, diceFaces) 
-                            VALUES(@cardId, @name, @attack, @defense, @health, @cardText, @diceFaces)";
+        cmd.CommandText = @"INSERT INTO Card(cardId, name, cost, attack, defense, health, cardText, diceFaces) 
+                            VALUES(@cardId, @name, @cost, @attack, @defense, @health, @cardText, @diceFaces)";
         cmd.Parameters.AddWithValue("@cardId", c.GetCardId());
         cmd.Parameters.AddWithValue("@name", c.GetName());
+        cmd.Parameters.AddWithValue("@cost", c.GetCost());
         cmd.Parameters.AddWithValue("@attack", c.GetAttack());
         cmd.Parameters.AddWithValue("@defense", c.GetDefense());
         cmd.Parameters.AddWithValue("@health", c.GetHealth());
@@ -120,8 +121,9 @@ public static class DatabaseManager {
             reader.GetInt32(2),
             reader.GetInt32(3),
             reader.GetInt32(4),
-            reader.GetString(5),
-            reader.GetString(6)
+            reader.GetInt32(5),
+            reader.GetString(6),
+            reader.GetString(7)
         );
         
         return c;
@@ -141,8 +143,9 @@ public static class DatabaseManager {
                 reader.GetInt32(2),
                 reader.GetInt32(3),
                 reader.GetInt32(4),
-                reader.GetString(5),
-                reader.GetString(6)
+                reader.GetInt32(5),
+                reader.GetString(6),
+                reader.GetString(7)
             ));
         }
 
@@ -313,6 +316,7 @@ public static class DatabaseManager {
         cmd.CommandText = @"CREATE TABLE Card(
                                 cardId INTEGER PRIMARY KEY,
                                 name TEXT,
+                                cost INTEGER,
                                 attack INTEGER,
                                 defense INTEGER,
                                 health INTEGER,

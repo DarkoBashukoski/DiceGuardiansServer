@@ -23,7 +23,7 @@ public class Tile {
         _terrain = terrain;
     }
 
-    public void SetMinion(Minion minion) {
+    public void SetMinion(Minion? minion) {
         _minion = minion;
     }
 }

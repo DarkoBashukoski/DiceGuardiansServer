@@ -4,7 +4,8 @@ using DiceGuardiansServer.Database.Models;
 namespace DiceGuardiansServer.Collection; 
 
 public static class AllCards {
-    private static Dictionary<long, Card> _allCards;
+    private static Dictionary<long, Card> _allCards = null!;
+    private static Card? _diceGuardian;
 
     public static void InitializeCardInfo() {
         _allCards = new Dictionary<long, Card>();
@@ -12,10 +13,12 @@ public static class AllCards {
         foreach (Card c in DatabaseManager.GetAllCards()) {
             _allCards[c.GetCardId()] = c;
         }
+        _diceGuardian = new Card(9999, "Dice Guardian", 0, 1, 0, 30, "", "1xs 1xs 1xs 1xs 1xs 1xs");
+
     }
 
     public static Card GetCard(long cardId) {
-        return _allCards[cardId];
+        return (cardId == 9999 ? _diceGuardian : _allCards[cardId])!;
     }
 
     public static int Count() {
@@ -24,5 +27,9 @@ public static class AllCards {
 
     public static Card[] SortedById() {
         return _allCards.Values.OrderBy(x => x.GetCardId()).ToArray();
+    }
+    
+    public static Card GetDiceGuardian() {
+        return _diceGuardian!;
     }
 }

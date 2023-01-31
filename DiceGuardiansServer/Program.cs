@@ -1,6 +1,7 @@
 ﻿using DiceGuardiansServer.Collection;
 using DiceGuardiansServer.Database;
 using DiceGuardiansServer.Database.Models;
+using DiceGuardiansServer.Game.Board;
 using DiceGuardiansServer.Matchmaking;
 using DiceGuardiansServer.Networking;
 using Riptide;
@@ -13,6 +14,7 @@ DatabaseManager.Start();
 DatabaseInitializer.init();
 AllCards.InitializeCardInfo();
 Matchmaker.Start();
+AllPieces.Start();
 
 User u = DatabaseManager.GetUser(1); // TODO remove debug code
 Client testClient = new Client();

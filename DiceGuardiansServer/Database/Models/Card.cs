@@ -5,15 +5,17 @@ namespace DiceGuardiansServer.Database.Models;
 public class Card {
     private long _cardId;
     private string _name;
+    private int _cost;
     private int _attack;
     private int _defense;
     private int _health;
     private string _cardText;
     private DiceFace[] _diceFaces;
 
-    public Card(long cardId, string name, int attack, int defense, int health, string cardText, string diceFaces) {
+    public Card(long cardId, string name, int cost, int attack, int defense, int health, string cardText, string diceFaces) {
         _cardId = cardId;
         _name = name;
+        _cost = cost;
         _attack = attack;
         _defense = defense;
         _health = health;
@@ -39,6 +41,7 @@ public class Card {
 
     public long GetCardId() {return _cardId;}
     public string GetName() {return _name;}
+    public int GetCost() {return _cost;}
     public int GetAttack() {return _attack;}
     public int GetDefense() {return _defense;}
     public int GetHealth() {return _health;}

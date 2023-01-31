@@ -5,7 +5,7 @@ public static class DatabaseInitializer {
         DatabaseManager.CreateUser("Jako Bate", "123");
 
         for (int i = 0; i < 30; i++) {
-            DatabaseManager.CreateCard(i, $"test-card-{i}", 4, 3, 2, "testString", "1xs 2xr 1xa 1xt 1xd 1xm");
+            DatabaseManager.CreateCard(i, $"test-card-{i}", i, 4, 3, 2, "testString", "1xs 2xr 1xa 1xt 1xd 1xm");
         }
         
         DatabaseManager.AddCardToUser(3, 1, 2);

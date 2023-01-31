@@ -1,8 +1,10 @@
 using DiceGuardiansServer.Collection;
+using DiceGuardiansServer.Database.SubModels;
 using DiceGuardiansServer.Game.Board;
 using DiceGuardiansServer.Game.GameEvents;
 using DiceGuardiansServer.Game.Player;
 using DiceGuardiansServer.Networking;
+using Microsoft.Xna.Framework;
 using Riptide;
 
 namespace DiceGuardiansServer.Game;
@@ -21,13 +23,16 @@ public class GameInstance { //TODO will rewrite whole class by the end
     }
 
     public GameInstance(HumanPlayer player1, HumanPlayer player2) {
-        if (Random.Shared.Next(0, 2) == 0) {
-            _player1 = player1;
-            _player2 = player2;
-        } else {
-            _player1 = player2;
-            _player2 = player1;
-        }
+        // if (Random.Shared.Next(0, 2) == 0) {
+        //     _player1 = player1;
+        //     _player2 = player2;
+        // } else {
+        //     _player1 = player2;
+        //     _player2 = player1;
+        // }
+
+        _player1 = player2; //TODO remove
+        _player2 = player1;
 
         _currentPlayer = _player1;
 
@@ -63,7 +68,6 @@ public class GameInstance { //TODO will rewrite whole class by the end
         NetworkManager.GetServer().Send(m1, _player1.GetNetworkId());
         NetworkManager.GetServer().Send(m1, _player2.GetNetworkId());
         Console.WriteLine("Main Phase");
-        GameEventManager.NextStepEvent(this, Step.END);
     }
 
     public void End() {
@@ -101,8 +105,67 @@ public class GameInstance { //TODO will rewrite whole class by the end
         
         GameEventManager.NextStepEvent(this, Step.MAIN);
     }
+    
+    public void TriggerEndTurn(ushort netId, Message m) {
+        if (_currentPlayer.GetNetworkId() != netId) {
+            return;
+        }
+        
+        GameEventManager.NextStepEvent(this, Step.END);
+    }
+
+    public void TriggerPlaceTile(ushort netId, Message m) {
+        if (_currentPlayer.GetNetworkId() != netId) {
+            return;
+        }
+
+        int piece = m.GetInt();
+        int rotation = m.GetInt();
+
+        Piece p = AllPieces.GetPiece(piece, rotation);
+        Vector2 mapPosition = new Vector2(m.GetInt(), m.GetInt());
+        long cardId = m.GetLong();
+        
+        _board.PlaceTile(p, mapPosition, cardId, _currentPlayer == _player1 ? 1 : 2);
+        _currentPlayer.GetCrestPool().SpendCrest(Crest.SUMMON, AllCards.GetCard(cardId).GetCost());
+        
+        Message reply = Message.Create(MessageSendMode.Reliable, ServerToClientId.PlaceTile);
+        reply.AddInt(piece);
+        reply.AddInt(rotation);
+        reply.AddInt((int) mapPosition.X);
+        reply.AddInt((int) mapPosition.Y);
+        reply.AddLong(cardId);
+        _currentPlayer.GetDeckManager().RemoveCard(cardId);
+        
+        NetworkManager.GetServer().Send(reply, _player1.GetNetworkId());
+        NetworkManager.GetServer().Send(reply, _player2.GetNetworkId());
+    }
+    
+    public void TriggerMoveMinion(ushort netId, Message m) {
+        if (_currentPlayer.GetNetworkId() != netId) {
+            return;
+        }
+
+        Vector2 start = new Vector2(m.GetInt(), m.GetInt());
+        Vector2 end = new Vector2(m.GetInt(), m.GetInt());
+        int cost = m.GetInt();
+
+        _board.MoveMinion(start, end);
+        _currentPlayer.GetCrestPool().SpendCrest(Crest.MOVEMENT, cost);
+        
+        Message reply = Message.Create(MessageSendMode.Reliable, ServerToClientId.MoveMinion);
+        reply.AddInt((int)start.X);
+        reply.AddInt((int) start.Y);
+        reply.AddInt((int) end.X);
+        reply.AddInt((int) end.Y);
+        reply.AddInt(cost);
+        NetworkManager.GetServer().Send(reply, _player1.GetNetworkId());
+        NetworkManager.GetServer().Send(reply, _player2.GetNetworkId());
+    }
 
     #endregion
+
+    #region Getters and Setters
 
     public HumanPlayer GetPlayer1() {
         return _player1;
@@ -115,4 +178,6 @@ public class GameInstance { //TODO will rewrite whole class by the end
     public void SetStep(Step s) {
         _step = s;
     }
+
+    #endregion
 }

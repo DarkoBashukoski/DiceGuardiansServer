@@ -40,4 +40,12 @@ public class DeckManager {
     public List<Card> GetDeck() {
         return _deck;
     }
+
+    public void RemoveCard(long cardId) {
+        foreach (var c in _deck.Where(c => c.GetCardId() == cardId)) {
+            _graveyard.Add(c);
+            _deck.Remove(c);
+            break;
+        }
+    }
 }

@@ -112,4 +112,19 @@ public static class Matchmaker {
     public static void SelectDiceRoll(ushort uid, Message message) {
         _gameInstances[uid].TriggerDiceRoll(uid, message);
     }
+    
+    [MessageHandler((ushort) ClientToServerId.EndTurn)]
+    public static void EndTurn(ushort uid, Message message) {
+        _gameInstances[uid].TriggerEndTurn(uid, message);
+    }
+    
+    [MessageHandler((ushort) ClientToServerId.PlaceTile)]
+    public static void PlaceTile(ushort uid, Message message) {
+        _gameInstances[uid].TriggerPlaceTile(uid, message);
+    }
+    
+    [MessageHandler((ushort) ClientToServerId.MoveMinion)]
+    public static void MoveMinion(ushort uid, Message message) {
+        _gameInstances[uid].TriggerMoveMinion(uid, message);
+    }
 }
