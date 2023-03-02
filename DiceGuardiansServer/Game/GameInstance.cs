@@ -12,7 +12,7 @@ namespace DiceGuardiansServer.Game;
 public class GameInstance { //TODO will rewrite whole class by the end
     private Step _step;
     
-    private GameBoard _board;
+    private readonly GameBoard _board;
 
     private readonly HumanPlayer _player1;
     private readonly HumanPlayer _player2;
@@ -23,17 +23,14 @@ public class GameInstance { //TODO will rewrite whole class by the end
     }
 
     public GameInstance(HumanPlayer player1, HumanPlayer player2) {
-        // if (Random.Shared.Next(0, 2) == 0) {
-        //     _player1 = player1;
-        //     _player2 = player2;
-        // } else {
-        //     _player1 = player2;
-        //     _player2 = player1;
-        // }
-
-        _player1 = player2; //TODO remove
-        _player2 = player1;
-
+        if (Random.Shared.Next(0, 2) == 0) {
+            _player1 = player1;
+            _player2 = player2;
+        } else {
+            _player1 = player2;
+            _player2 = player1;
+        }
+        
         _currentPlayer = _player1;
 
         _board = new GameBoard();

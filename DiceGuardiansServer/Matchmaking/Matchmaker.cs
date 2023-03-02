@@ -88,12 +88,6 @@ public static class Matchmaker {
         }
     }
 
-    public static void CheckIfAvailableOpponent(User u, ushort netId) { // TODO remove debug code
-        if (_lookingForGame.Count < 1) {
-            _lookingForGame[netId] = new HumanPlayer(netId, u);
-        }
-    }
-
     [MessageHandler((ushort) ClientToServerId.StartMatchmaking)]
     public static void AddToMatchmaker(ushort uid, Message message) {
         long userId = message.GetLong();

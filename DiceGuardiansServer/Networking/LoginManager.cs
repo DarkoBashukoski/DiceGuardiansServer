@@ -78,6 +78,9 @@ public class LoginManager {
         foreach (KeyValuePair<long, int> kvp in deck) {
             DatabaseManager.AddCardToUser(kvp.Key, userId, kvp.Value);
         }
+        
+        DatabaseManager.AddCardToUser(6, userId, 3);
+        DatabaseManager.AddCardToUser(1, userId, 2);
 
         DatabaseManager.StoreDeck(userId, "testDeck", deck);
     }

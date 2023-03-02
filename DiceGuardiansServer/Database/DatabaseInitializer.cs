@@ -16,6 +16,8 @@ public static class DatabaseInitializer {
         DatabaseManager.AddCardToUser(20, 1, 3);
         DatabaseManager.AddCardToUser(7, 1, 2);
         DatabaseManager.AddCardToUser(27, 1, 1);
+        DatabaseManager.AddCardToUser(6, 1, 3);
+        DatabaseManager.AddCardToUser(1, 1, 2);
 
         Dictionary<long, int> deck = new Dictionary<long, int> {
             [3] = 2,

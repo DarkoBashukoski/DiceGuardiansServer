@@ -84,10 +84,47 @@ public static class AllPieces {
                 new Vector2(1, 2)
             )
         };
+        List<Piece> piece3 = new List<Piece> {
+            new Piece(
+                new[,] {
+                    { 0, 1 },
+                    { 0, 1 },
+                    { 1, 1 },
+                    { 1, 0 },
+                    { 1, 0 }
+                },
+                new Vector2(2, 0)
+            ),
+            new Piece(
+                new[,] {
+                    { 1, 1, 1, 0, 0 },
+                    { 0, 0, 1, 1, 1 }
+                },
+                new Vector2(1, 2)
+            ),
+            new Piece(
+                new[,] {
+                    { 0, 1 },
+                    { 0, 1 },
+                    { 1, 1 },
+                    { 1, 0 },
+                    { 1, 0 }
+                },
+                new Vector2(2, 1)
+            ),
+            new Piece(
+                new[,] {
+                    { 1, 1, 1, 0, 0 },
+                    { 0, 0, 1, 1, 1 }
+                },
+                new Vector2(0, 2)
+            ),
+        };
         
         _allPieces = new List<List<Piece>> {
             piece1,
-            piece2
+            piece2,
+            piece3
         };
     }
 
@@ -107,6 +144,10 @@ public static class AllPieces {
         return _piece;
     }
 
+    public static Piece GetPiece(int piece, int rotation) {
+        return _allPieces[piece][rotation];
+    }
+
     public static int GetRotation() {
         return _rotation;
     }
@@ -114,9 +155,5 @@ public static class AllPieces {
     public static void Reset() {
         _rotation = 0;
         _piece = 0;
-    }
-
-    public static Piece GetPiece(int piece, int rotation) {
-        return _allPieces[piece][rotation];
     }
 }
